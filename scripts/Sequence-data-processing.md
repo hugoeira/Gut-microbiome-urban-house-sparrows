@@ -6,10 +6,31 @@
 
 ## Table of Contents
 
-[TOC]
-
-------
-
+- [1.  Activate Qiime2](#1--activate-qiime2)
+- [2. Import sequences](#2-import-sequences)
+- [3. Visualize quality plots](#3-visualize-quality-plots)
+- [4. Exit qiime](#4-exit-qiime)
+- [5. In R run cutadapt pipeline](#5-in-r-run-cutadapt-pipeline)
+- [6.  Import trimmed sequences to qiime2](#6--import-trimmed-sequences-to-qiime2)
+- [7. Generate quality plots 2nd time](#7-generate-quality-plots-2nd-time)
+- [8. Run dada2](#8-run-dada2)
+  * [8.1 DADA2 results](#81-dada2-results)
+- [9. Taxonomy assignment](#9-taxonomy-assignment)
+  * [10. Taxonomy visualisation](#10-taxonomy-visualisation)
+- [11. Exit qiime2](#11-exit-qiime2)
+- [12. In R run decontam](#12-in-r-run-decontam)
+  * [12.1. Read in the data](#121-read-in-the-data)
+  * [12.2. Run decontam](#122-run-decontam)
+  * [12.3. Export feature table as biom file](#123-export-feature-table-as-biom-file)
+- [13. Import biom table from R to qiime2](#13-import-biom-table-from-r-to-qiime2)
+- [14. Remove control samples from dataset](#14-remove-control-samples-from-dataset)
+- [15. Taxonomy based filtering](#15-taxonomy-based-filtering)
+- [16. Filter unique features](#16-filter-unique-features)
+- [17. Filter samples with less than 500 reads](#17-filter-samples-with-less-than-500-reads)
+- [18. Filter representative sequences](#18-filter-representative-sequences)
+- [19. Building a phylogenetic tree](#19-building-a-phylogenetic-tree)
+- [20. Rarefaction curves](#20-rarefaction-curves)
+- [21. Calculate alpha diversity metrics and rarefy the data-set](#21-calculate-alpha-diversity-metrics-and-rarefy-the-data-set)
 
 
 ## 1.  Activate Qiime2
