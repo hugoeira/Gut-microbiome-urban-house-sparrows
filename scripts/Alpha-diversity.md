@@ -1,6 +1,25 @@
 # Alpha diversity analysis
 
-[TOC]
+- [A) Shannon Diversity](#a--shannon-diversity)
+  * [1. Load libraries](#1-load-libraries)
+  * [2. Load the data](#2-load-the-data)
+  * [3. Plot shannon distribution](#3-plot-shannon-distribution)
+  * [4. Model  sex + location](#4-model--sex---location)
+  * [5. Model SMI + location](#5-model-smi---location)
+  * [6. Model shannon + infection status](#6-model-shannon---infection-status)
+  * [7. Model infection + location](#7-model-infection---location)
+  * [8. Adjust p values BH correction](#8-adjust-p-values-bh-correction)
+  * [9. Model interaction SMI*location](#9-model-interaction-smi-location)
+  * [10. Model interaction location*infection](#10-model-interaction-location-infection)
+- [B) Faith PD](#b--faith-pd)
+  * [1. Plot faith distribution](#1-plot-faith-distribution)
+  * [2. Model  sex + location](#2-model--sex---location)
+  * [3. Model SMI + location](#3-model-smi---location)
+  * [4. Model faith + infection status](#4-model-faith---infection-status)
+  * [5. Model infection + location](#5-model-infection---location)
+  * [6. Adjust p values BH correction](#6-adjust-p-values-bh-correction)
+  * [7. Model interaction SMI*location](#7-model-interaction-smi-location)
+  * [8. Model interaction location*infection](#8-model-interaction-location-infection)
 
 # A) Shannon Diversity
 
