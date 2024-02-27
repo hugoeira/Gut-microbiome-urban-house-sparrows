@@ -2,7 +2,16 @@
 
 
 
-[TOC]
+- [1. Load libraries](#1-load-libraries)
+- [2. Define path to fastq files](#2-define-path-to-fastq-files)
+- [3. Generate matched lists of the forward and reverse read files](#3-generate-matched-lists-of-the-forward-and-reverse-read-files)
+- [4. Identify Primers](#4-identify-primers)
+- [5. Verify the presence and orientation of the primers in the data](#5-verify-the-presence-and-orientation-of-the-primers-in-the-data)
+  * [5.1 Create all orientantions of the primers](#51-create-all-orientantions-of-the-primers)
+- [5.3. Count the number of times the primers appear in the forward and reverse reads](#53-count-the-number-of-times-the-primers-appear-in-the-forward-and-reverse-reads)
+- [5.4. Remove primers](#54-remove-primers)
+  * [5.4.1 Call cutadapt in R](#541-call-cutadapt-in-r)
+  * [5.4.2 Create output filenames for the cutadapt-ed files. Define the parameters of cutadapt](#542-create-output-filenames-for-the-cutadapt-ed-files-define-the-parameters-of-cutadapt)
 
 
 
