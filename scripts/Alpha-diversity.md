@@ -577,7 +577,7 @@ effect_interaction
 
 ## 8. Model interaction location*infection
 
-```
+```R
 model_interaction2 <- lm(log_faith ~ location*m_infection, data = metadata)
 
 #Model daignostics
