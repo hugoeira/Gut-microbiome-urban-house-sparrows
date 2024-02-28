@@ -6,19 +6,19 @@
 - [Edit metadata file](#edit-metadata-file)
 - [Plot all variables with bray curtis](#plot-all-variables-with-bray-curtis)
 - [PERMANOVA (bray curtis)](#permanova--bray-curtis-)
-  * [Model 1 place + sex](#model-1-place---sex)
-  * [Model 2 place + bmi](#model-2-place---bmi)
-  * [Model 3 place + infection](#model-3-place---infection)
+  * [Model 1 location + sex](#model-1-location---sex)
+  * [Model 2 location + smi](#model-2-location---smi)
+  * [Model 3 location + infection](#model-3-location---infection)
   * [Adjust p values BH correction](#adjust-p-values-bh-correction)
 - [Plot all variables with Weighted UniFrac](#plot-all-variables-with-weighted-unifrac)
 - [PERMANOVA (wheighted unifrac)](#permanova--wheighted-unifrac-)
-  * [Model 1 place + sex](#model-1-place---sex-1)
-  * [Model 2 place + bmi](#model-2-place---bmi-1)
-  * [Model 3 place + infection](#model-3-place---infection-1)
+  * [Model 1 location + sex](#model-1-location---sex-1)
+  * [Model 2 location + smi](#model-2-location---smi-1)
+  * [Model 3 location + infection](#model-3-location---infection-1)
   * [Adjust p values BH correction](#adjust-p-values-bh-correction-1)
 - [Interaction models](#interaction-models)
-  * [Model  place*bmi](#model--place-bmi)
-  * [Model  place*infection](#model--place-infection)
+  * [Model  location*smi](#model--location-smi)
+  * [Model  location*infection](#model--location-infection)
 
 ## Load libraries
 
@@ -105,15 +105,15 @@ readcount(ps_css) # number of reads per sample
 ps_css <- readRDS("phyloseq_css.rds")
 metadata <- sample_data(ps_css)
 metadata <- clean_names(metadata)
-metadata$place <- gsub("IBISS, yard", "IBISS", metadata$place)
-metadata$place <- gsub("Kalemegdan, ZOO", "ZOO", metadata$place)
+metadata$location <- gsub("IBISS, yard", "IBISS", metadata$location)
+metadata$location <- gsub("Kalemegdan, ZOO", "ZOO", metadata$location)
 metadata$identifier <- as.factor(metadata$identifier)
 metadata$ring_number <- as.factor(metadata$ring_number)
-metadata$place <- as.factor(metadata$place)
+metadata$location <- as.factor(metadata$location)
 metadata$sex <- as.factor(metadata$sex)
 metadata$m_infection <- as.factor(metadata$m_infection)
-metadata$bmi <- as.numeric(metadata$bmi)
-metadata$std_bmi <- as.numeric(metadata$std_bmi)
+metadata$smi <- as.numeric(metadata$smi)
+metadata$std_smi <- as.numeric(metadata$std_smi)
 metadata$parasetimia <- as.numeric(metadata$parasetimia)
 
 # re build the phyloseq object
@@ -138,18 +138,18 @@ dist_bc <- as.matrix(vegdist(otu_table(ps_css), method="bray"))
 set.seed(1234)
 data_pcoa_bray_css  <- ordinate(physeq = ps_css, method = "PCoA", distance = "bray") # compute pcoa
 
-#bray vs place
-bray_place <- plot_ordination(physeq = ps_css, ordination = data_pcoa_bray_css, color = "place",title = "PCOA")
-bray_place + geom_point(size=4)+theme_classic()
+#bray vs location
+bray_location <- plot_ordination(physeq = ps_css, ordination = data_pcoa_bray_css, color = "location",title = "PCOA")
+bray_location + geom_point(size=4)+theme_classic()
 
 ### bray vs sex
 bray_sex <- plot_ordination(physeq = ps_css, ordination = data_pcoa_bray_css, color = "sex",title = "PCOA")
 bray_sex + geom_point(size=4)
 
-### bray vs bmi
-bray_bmi <- plot_ordination(physeq = ps_css, ordination = data_pcoa_bray_css, color = "std_bmi",title = "PCOA")
-plot(bray_bmi)
-bray_bmi + geom_point(size=4)
+### bray vs smi
+bray_smi <- plot_ordination(physeq = ps_css, ordination = data_pcoa_bray_css, color = "std_smi",title = "PCOA")
+plot(bray_smi)
+bray_smi + geom_point(size=4)
 
 ### bray vs m_infection
 bray_infection <- plot_ordination(physeq = ps_css, ordination = data_pcoa_bray_css, color = "m_infection",title = "PCOA")
@@ -175,58 +175,58 @@ set.seed(1234)
 
 
 
-### Model 1 place + sex
+### Model 1 location + sex
 
 ```R
 #Run PERMANOVA
-perm_place_sex <- adonis2(asv_table ~ place + sex  , data = metadata, permutations = perm1, method = "bray", by= "margin", diag=TRUE)
-summary(perm_place_sex)
-p1 <- bc_perm_place_sex
+perm_location_sex <- adonis2(asv_table ~ location + sex  , data = metadata, permutations = perm1, method = "bray", by= "margin", diag=TRUE)
+summary(perm_location_sex)
+p1 <- bc_perm_location_sex
 
 # Analysis of dispersion
-betadisp_place <-betadisper(BC.dist, metadata$place) # analysis of dispersion (non significant)
-anova(betadisp_place)
-permutest(betadisp_place, pairwise = TRUE, permutations = 9999) # same as betadisp but with permutations
+betadisp_location <-betadisper(BC.dist, metadata$location) # analysis of dispersion (non significant)
+anova(betadisp_location)
+permutest(betadisp_location, pairwise = TRUE, permutations = 9999) # same as betadisp but with permutations
 
 betadisp_sex <-betadisper(BC.dist, metadata$sex) # analysis of dispersion (non significant)
 anova(betadisp_sex)
 permutest(betadisp_sex, pairwise = TRUE, permutations = 9999) # same as betadisp but with permutations
 
-plot(betadisp_place)
+plot(betadisp_location)
 
 #Plot results 
 my_cols <- c("#4CAF50", "#D32F2F")
-plot(betadisp_place, col = my_cols)
+plot(betadisp_location, col = my_cols)
 
 par(cex.main = 1.5, cex.lab = 1.2, cex.axis = 1.2)
-plot(betadisp_place, ellipse = FALSE, hull = FALSE, col = my_cols,  pch = c(16,17), cex = 2.2,seg.lty = "dashed",  main = "")# 1 sd data ellipse
+plot(betadisp_location, ellipse = FALSE, hull = FALSE, col = my_cols,  pch = c(16,17), cex = 2.2,seg.lty = "dashed",  main = "")# 1 sd data ellipse
 ```
 
 
 
-### Model 2 place + bmi
+### Model 2 location + smi
 ```R
 #Run PERMANOVA
-bc_perm_place_bmi<- adonis2(asv_table ~ place + std_bmi  , data = metadata, permutations = perm1, method = "bray", by= "margin")
-summary(perm_place_bmi)
-p2 <- bc_perm_place_bmi
+bc_perm_location_smi<- adonis2(asv_table ~ location + std_smi  , data = metadata, permutations = perm1, method = "bray", by= "margin")
+summary(perm_location_smi)
+p2 <- bc_perm_location_smi
 
 # Analysis of dispersion
-betadisp_bmi <-betadisper(BC.dist, metadata$std_bmi) # analysis of dispersion (non significant)
-anova(betadisp_bmi)
-permutest(betadisp_bmi, pairwise = FALSE, permutations = 9999) # same as betadisp but with permutations
+betadisp_smi <-betadisper(BC.dist, metadata$std_smi) # analysis of dispersion (non significant)
+anova(betadisp_smi)
+permutest(betadisp_smi, pairwise = FALSE, permutations = 9999) # same as betadisp but with permutations
 
-plot(betadisp_bmi)
+plot(betadisp_smi)
 ```
 
 
 
-### Model 3 place + infection
+### Model 3 location + infection
 
 ```R
-bc_perm_place_infection<- adonis2(asv_table ~ place + m_infection  , data = metadata, 
+bc_perm_location_infection<- adonis2(asv_table ~ location + m_infection  , data = metadata, 
                    permutations = perm1, method = "bray", by= "margin")
-p3 <- bc_perm_place_infection
+p3 <- bc_perm_location_infection
 
 betadisp_infection <-betadisper(BC.dist, metadata$m_infection) # analysis of dispersion (non significant)
 anova(betadisp_infection)
@@ -257,18 +257,18 @@ dist_wu <- distance(ps_css, method = "wunifrac", type = "samples")
 set.seed(1234)
 data_pcoa_wu_css  <- ordinate(physeq = ps_css, method = "PCoA", distance = "wunifrac") # compute pcoa
 
-#wu vs place
-wu_place <- plot_ordination(physeq = ps_css, ordination = data_pcoa_wu_css, color = "place",title = "PCOA")
-wu_place + geom_point(size=4)+theme_classic()
+#wu vs location
+wu_location <- plot_ordination(physeq = ps_css, ordination = data_pcoa_wu_css, color = "location",title = "PCOA")
+wu_location + geom_point(size=4)+theme_classic()
 
 #wu vs sex
 wu_sex <- plot_ordination(physeq = ps_css, ordination = data_pcoa_wu_css, color = "sex",title = "PCOA")
 wu_sex + geom_point(size=4)
 
-#wu vs bmi
-wu_bmi <- plot_ordination(physeq = ps_css, ordination = data_pcoa_wu_css, color = "std_bmi",title = "PCOA")
-plot(wu_bmi)
-wu_bmi + geom_point(size=4)
+#wu vs smi
+wu_smi <- plot_ordination(physeq = ps_css, ordination = data_pcoa_wu_css, color = "std_smi",title = "PCOA")
+plot(wu_smi)
+wu_smi + geom_point(size=4)
 
 #wu vs m_infection
 wu_infection <- plot_ordination(physeq = ps_css, ordination = data_pcoa_wu_css, color = "m_infection",title = "PCOA")
@@ -294,17 +294,17 @@ set.seed(1234)
 
 
 
-### Model 1 place + sex
+### Model 1 location + sex
 
 ```R
 #Run PERMANOVA
-wu_perm_place_sex <- adonis2(dist_wu ~ place + sex  , data = metadata, permutations = perm1, by= "margin")
-p1 <- wu_perm_place_sex
+wu_perm_location_sex <- adonis2(dist_wu ~ location + sex  , data = metadata, permutations = perm1, by= "margin")
+p1 <- wu_perm_location_sex
 
 # Analysis of dispersion
-wu_betadisp_place <-betadisper(dist_wu, metadata$place) # analysis of dispersion (non significant)
-anova(wu_betadisp_place)
-permutest(wu_betadisp_place, pairwise = TRUE, permutations = 9999) # same as betadisp but with permutations
+wu_betadisp_location <-betadisper(dist_wu, metadata$location) # analysis of dispersion (non significant)
+anova(wu_betadisp_location)
+permutest(wu_betadisp_location, pairwise = TRUE, permutations = 9999) # same as betadisp but with permutations
 
 wu_betadisp_sex <-betadisper(dist_wu, metadata$sex) # analysis of dispersion (non significant)
 anova(wu_betadisp_sex)
@@ -313,35 +313,35 @@ permutest(wu_betadisp_sex, pairwise = TRUE, permutations = 9999) # same as betad
 
 #Plot the resutls
 my_cols <- c("#4CAF50", "#D32F2F")
-plot(wu_betadisp_place, col = my_cols)
+plot(wu_betadisp_location, col = my_cols)
 
 par(cex.main = 1.5, cex.lab = 1.2, cex.axis = 1.2)
-plot(wu_betadisp_place, ellipse = FALSE, hull = FALSE, col = my_cols,  pch = c(16,17), cex = 2.2,seg.lty = "dashed",  main = "")
+plot(wu_betadisp_location, ellipse = FALSE, hull = FALSE, col = my_cols,  pch = c(16,17), cex = 2.2,seg.lty = "dashed",  main = "")
 ```
 
 
 
-### Model 2 place + bmi
+### Model 2 location + smi
 ```R
 #Run PERMANOVA
-wu_perm_place_bmi<- adonis2(dist_wu ~ place + std_bmi  , data = metadata, permutations = perm1, by= "margin")
-p2 <- wu_perm_place_bmi
+wu_perm_location_smi<- adonis2(dist_wu ~ location + std_smi  , data = metadata, permutations = perm1, by= "margin")
+p2 <- wu_perm_location_smi
 
 # Analysis of dispersion
-wu_betadisp_bmi <-betadisper(dist_wu, metadata$std_bmi) # analysis of dispersion (non significant)
-anova(wu_betadisp_bmi)
-permutest(wu_betadisp_bmi, pairwise = FALSE, permutations = 9999) # same as betadisp but with permutations
-plot(wu_betadisp_bmi)
+wu_betadisp_smi <-betadisper(dist_wu, metadata$std_smi) # analysis of dispersion (non significant)
+anova(wu_betadisp_smi)
+permutest(wu_betadisp_smi, pairwise = FALSE, permutations = 9999) # same as betadisp but with permutations
+plot(wu_betadisp_smi)
 ```
 
 
 
-### Model 3 place + infection
+### Model 3 location + infection
 
 ```R
 #Run PERMANOVA
-wu_perm_place_infection<- adonis2(dist_wu ~ place + m_infection  , data = metadata, permutations = perm1, by= "margin")
-p3 <- wu_perm_place_infection
+wu_perm_location_infection<- adonis2(dist_wu ~ location + m_infection  , data = metadata, permutations = perm1, by= "margin")
+p3 <- wu_perm_location_infection
 
 # Analysis of dispersion
 wu_betadisp_infection <-betadisper(dist_wu, metadata$m_infection) # analysis of dispersion (non significant)
@@ -366,24 +366,24 @@ p_adjust_wu
 
 ## Interaction models
 
-### Model  place*bmi
+### Model  location*smi
 ```R
-inter_place_bmi<- adonis2( asv_table ~ place*std_bmi  , data = metadata, permutations = perm1, method = "bray", by= "margin")
-inter_place_bmi
+inter_location_smi<- adonis2( asv_table ~ location*std_smi  , data = metadata, permutations = perm1, method = "bray", by= "margin")
+inter_location_smi
 
-wu_inter_place_bmi<- adonis2(dist_wu ~ place*std_bmi  , data = metadata, permutations = perm1, by= "margin")
-wu_inter_place_bmi
+wu_inter_location_smi<- adonis2(dist_wu ~ location*std_smi  , data = metadata, permutations = perm1, by= "margin")
+wu_inter_location_smi
 ```
 
 
 
-### Model  place*infection
+### Model  location*infection
 
 ```R
-inter_place_infection<- adonis2( asv_table ~ place*m_infection  , data = metadata, permutations = perm1, method = "bray", by= "margin")
-inter_place_infection
+inter_location_infection<- adonis2( asv_table ~ location*m_infection  , data = metadata, permutations = perm1, method = "bray", by= "margin")
+inter_location_infection
 
-wu_inter_place_infection<- adonis2(WU.dist ~ place*m_infection  , data = metadata, permutations = perm1, by= "margin")
-wu_inter_place_infection
+wu_inter_location_infection<- adonis2(WU.dist ~ location*m_infection  , data = metadata, permutations = perm1, by= "margin")
+wu_inter_location_infection
 ```
 
