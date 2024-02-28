@@ -1,6 +1,24 @@
 # Beta diversity analysis
 
-[TOC]
+- [Load libraries](#load-libraries)
+- [Make a phyloseq object](#make-a-phyloseq-object)
+- [CSS transformation](#css-transformation)
+- [Edit metadata file](#edit-metadata-file)
+- [Plot all variables with bray curtis](#plot-all-variables-with-bray-curtis)
+- [PERMANOVA (bray curtis)](#permanova--bray-curtis-)
+  * [Model 1 place + sex](#model-1-place---sex)
+  * [Model 2 place + bmi](#model-2-place---bmi)
+  * [Model 3 place + infection](#model-3-place---infection)
+  * [Adjust p values BH correction](#adjust-p-values-bh-correction)
+- [Plot all variables with Weighted UniFrac](#plot-all-variables-with-weighted-unifrac)
+- [PERMANOVA (wheighted unifrac)](#permanova--wheighted-unifrac-)
+  * [Model 1 place + sex](#model-1-place---sex-1)
+  * [Model 2 place + bmi](#model-2-place---bmi-1)
+  * [Model 3 place + infection](#model-3-place---infection-1)
+  * [Adjust p values BH correction](#adjust-p-values-bh-correction-1)
+- [Interaction models](#interaction-models)
+  * [Model  place*bmi](#model--place-bmi)
+  * [Model  place*infection](#model--place-infection)
 
 ## Load libraries
 
